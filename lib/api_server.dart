@@ -5,11 +5,17 @@ import 'package:http/http.dart' as http;
 class ApiService {
   static final Dio _dio = Dio();
 
-  static Json post(String url, Map<String, dynamic> data) async {
+  static Future post(String url, Map<String, dynamic> data) async {
     _dio.options.baseUrl = 'http:127.0.0.1:5555';
     _dio.options.headers = {'Content-Type': 'application/json; charset=UTF-8'};
     Response rsp = await _dio.post(url, data: data);
-    return rsp.data.toString();
+
+    try {
+      return jsonDecode(rsp.data.toString());
+    } catch (e) {
+      print(e);
+      return Rsp(code: -1, data: e, msg: e.toString());
+    }
   }
 
   static Future<http.Response> post02(String url, Map<String, dynamic> data) {

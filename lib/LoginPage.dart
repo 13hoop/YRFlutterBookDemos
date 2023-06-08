@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:js';
 
 import 'package:book_demo/api_server.dart';
 import 'package:book_demo/components/my_button.dart';
@@ -11,14 +12,15 @@ class LoginPage extends StatelessWidget {
 
   LoginPage({super.key});
 
-  _loginUser() {
+  _loginUser(BuildContext context) {
     var data = <String, String>{
       'name': nameController.text,
       'pwd': pwdController.text
     };
     var url = '/login';
 
-    var rsp = ApiService.post(url, data);
+    // var rsp = ApiService.post(url, data);
+    // var user = User.fromJson(rsp as Map<String, dynamic>);
 
     // try {
     //   final rsp = await ApiService.post(url, data);
@@ -34,6 +36,9 @@ class LoginPage extends StatelessWidget {
     //   print(e);
     //   return null;
     // }
+
+    // 登录成功， 跳转首页
+    Navigator.pushNamed(context, '/');
   }
 
   String title = '欢迎来到 怪物猎人-曙光!';
@@ -95,7 +100,7 @@ class LoginPage extends StatelessWidget {
                 height: 48,
               ),
               YRButton(
-                onTap: _loginUser,
+                onTap: _loginUser(context),
               ),
               const SizedBox(
                 height: 128,
