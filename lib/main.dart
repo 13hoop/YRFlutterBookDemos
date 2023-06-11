@@ -1,11 +1,14 @@
 import 'package:book_demo/LoginPage.dart';
+import 'package:book_demo/homepage.dart';
 import 'package:book_demo/demo2_3.dart';
+import 'package:book_demo/team_page.dart';
 import 'package:flutter/material.dart';
 
 import 'countDemo.dart';
 
 void main() {
   runApp(const MyApp());
+  // runApp(const Demo23());
 }
 
 class MyApp extends StatelessWidget {
@@ -20,12 +23,15 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: LoginPage(),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       routes: <String, WidgetBuilder>{
-        '/': (context) => MyHomePage(title: ' home title'),
+        '/count': (context) => MyHomePage(
+              title: 'title',
+            ),
+        '/home': (context) => HomePage(),
         '/login': (context) => LoginPage(),
+        '/team': (context) => TeamPage()
       },
-      initialRoute: '/login',
+      initialRoute: '/home',
     );
   }
 }

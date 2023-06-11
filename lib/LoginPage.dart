@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:js';
 
 import 'package:book_demo/api_server.dart';
 import 'package:book_demo/components/my_button.dart';
@@ -38,7 +37,7 @@ class LoginPage extends StatelessWidget {
     // }
 
     // 登录成功， 跳转首页
-    Navigator.pushNamed(context, '/');
+    // Navigator.pushNamed(context, '/home');
   }
 
   String title = '欢迎来到 怪物猎人-曙光!';

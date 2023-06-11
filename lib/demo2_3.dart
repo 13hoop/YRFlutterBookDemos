@@ -12,7 +12,19 @@ class Demo23 extends StatefulWidget {
 class _Demo23State extends State<Demo23> {
   @override
   Widget build(BuildContext context) {
-    return TapBoxA();
+    return Container(
+        child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        children: [
+          TapBoxA(),
+          SizedBox(
+            width: 8,
+          ),
+          TapBoxA()
+        ],
+      ),
+    ));
   }
 }
 
@@ -37,7 +49,6 @@ class _TapBoxAState extends State<TapBoxA> {
     return GestureDetector(
       onTap: _handleTap,
       child: Container(
-        width: 200,
         height: 200,
         decoration: BoxDecoration(
             color: _active ? Colors.lightGreen[700] : Colors.grey[600]),
