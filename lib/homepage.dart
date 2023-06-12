@@ -1,3 +1,4 @@
+import 'package:book_demo/LoginPage.dart';
 import 'package:book_demo/countDemo.dart';
 import 'package:book_demo/team_page.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +13,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final List<BottomNavigationBarItem> items = [
     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-    BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Teams'),
+    BottomNavigationBarItem(icon: Icon(Icons.sports_baseball), label: 'Teams'),
     BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Profile'),
   ];
 
-  List<Widget> _pages = [
-    HomePage(),
+  final List<Widget> _pages = [
+    LoginPage(),
     TeamPage(),
     MyHomePage(
       title: 'xxxx',
@@ -33,7 +34,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[1],
+      body: _pages[_selectIndex],
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectIndex,
           onTap: _navigationBottomBar,

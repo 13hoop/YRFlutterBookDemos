@@ -1,4 +1,5 @@
 import 'package:book_demo/LoginPage.dart';
+import 'package:book_demo/finals_page.dart';
 import 'package:book_demo/homepage.dart';
 import 'package:book_demo/demo2_3.dart';
 import 'package:book_demo/team_page.dart';
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
             ),
         '/home': (context) => HomePage(),
         '/login': (context) => LoginPage(),
-        '/team': (context) => TeamPage()
+        '/team': (context) => TeamPage(),
+        '/game': (context) => FinalGamePage()
       },
       initialRoute: '/home',
     );
