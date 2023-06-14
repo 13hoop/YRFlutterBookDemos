@@ -41,8 +41,8 @@ class _TeamPage extends State<TeamPage> {
               onPressed: () {
                 Navigator.pushNamed(context, '/game');
               },
-              icon: Icon(Icons.tv)),
-          title: Text('NBA')),
+              icon: const Icon(Icons.tv)),
+          title: const Text('NBA')),
       body: FutureBuilder(
           future: quryTeams(),
           builder: (context, snapshot) {
@@ -51,8 +51,8 @@ class _TeamPage extends State<TeamPage> {
                   itemCount: dataSource.length,
                   itemBuilder: (context, index) {
                     return Container(
-                      margin: EdgeInsets.only(top: 8, left: 8, right: 8),
-                      padding: EdgeInsets.all(16),
+                      margin: const EdgeInsets.only(top: 8, left: 8, right: 8),
+                      padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           color: Colors.grey[100]),
@@ -60,10 +60,7 @@ class _TeamPage extends State<TeamPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            dataSource[index].abbreviation +
-                                ' (' +
-                                dataSource[index].id.toString() +
-                                ')',
+                            '${dataSource[index].abbreviation} (${dataSource[index].id})',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,
@@ -71,25 +68,25 @@ class _TeamPage extends State<TeamPage> {
                           ),
                           Row(
                             children: [
-                              Icon(Icons.assessment),
-                              SizedBox(
+                              const Icon(Icons.assessment),
+                              const SizedBox(
                                 width: 8,
                               ),
                               Text(
                                 dataSource[index].full_name,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black54, fontSize: 16),
                               ),
                             ],
                           ),
                           Row(
                             children: [
-                              Icon(Icons.assistant_photo_outlined),
-                              SizedBox(
+                              const Icon(Icons.assistant_photo_outlined),
+                              const SizedBox(
                                 width: 8,
                               ),
                               Text(dataSource[index].city,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Colors.black87, fontSize: 16)),
                             ],
                           ),
@@ -98,7 +95,7 @@ class _TeamPage extends State<TeamPage> {
                     );
                   });
             } else {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }

@@ -10,13 +10,13 @@ class YRButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(20),
-        margin: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.all(20),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
             color: Colors.black, borderRadius: BorderRadius.circular(8.0)),
-        child: Center(
+        child: const Center(
           child: Text(
-            '登陆',
+            '登 陆',
             style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
           ),

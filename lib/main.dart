@@ -9,7 +9,6 @@ import 'countDemo.dart';
 
 void main() {
   runApp(const MyApp());
-  // runApp(const Demo23());
 }
 
 class MyApp extends StatelessWidget {
@@ -23,7 +22,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
       routes: <String, WidgetBuilder>{
         '/count': (context) => MyHomePage(
               title: 'title',
@@ -33,7 +31,7 @@ class MyApp extends StatelessWidget {
         '/team': (context) => TeamPage(),
         '/game': (context) => FinalGamePage()
       },
-      initialRoute: '/home',
+      initialRoute: '/login',
     );
   }
 }

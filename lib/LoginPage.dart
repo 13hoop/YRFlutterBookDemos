@@ -1,8 +1,9 @@
+// ignore_for_file: avoid_print
 import 'dart:convert';
-
 import 'package:book_demo/api_server.dart';
 import 'package:book_demo/components/my_button.dart';
 import 'package:book_demo/components/my_textfielf.dart';
+import 'package:book_demo/components/my_toast.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -18,34 +19,33 @@ class LoginPage extends StatelessWidget {
     };
     var url = '/login';
 
-    // var rsp = ApiService.post(url, data);
-    // var user = User.fromJson(rsp as Map<String, dynamic>);
+    if (nameController.text.length == 0) {
+      Toast.show('请输入用户名');
+      return;
+    }
 
-    // try {
-    //   final rsp = await ApiService.post(url, data);
-    //   if (rsp.statusCode == 200) {
-    //     print(jsonDecode(rsp.body));
-    //     var user = User.fromJson(jsonDecode(rsp.body));
-    //     return user;
-    //   } else {
-    //     title = '密码或者用户名错误';
-    //     return null;
-    //   }
-    // } catch (e) {
-    //   print(e);
-    //   return null;
-    // }
+    if (pwdController.text.length == 0) {
+      Toast.show('请输入密码');
+      return;
+    }
 
-    // 登录成功， 跳转首页
-    // Navigator.pushNamed(context, '/home');
+    ApiService.post(url, data).then((value) {
+      print(' >> ${value.msg}');
+      if (value.code == 0) {
+        Navigator.pop(context);
+      }
+    }).catchError((onError) {
+      print(' err: $onError');
+    });
   }
 
-  String title = '欢迎来到 怪物猎人-曙光!';
+  String title = '欢迎来到 NBA';
 
   @override
   Widget build(BuildContext context) {
+    print(' -- LoginPage rendering ...');
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: const Color(0xFF01579B),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -53,16 +53,15 @@ class LoginPage extends StatelessWidget {
               const SizedBox(
                 height: 50,
               ),
-              const Icon(
-                Icons.cabin,
-                size: 100,
-              ),
+              Image.network(
+                  height: 80,
+                  'https://res.nba.cn/resource/mat1/chinanba/images/nbalogo/nba-icon.png?20220224'),
               const SizedBox(
                 height: 50,
               ),
               Text(
                 title,
-                style: TextStyle(color: Colors.grey[700], fontSize: 16),
+                style: const TextStyle(color: Colors.white60, fontSize: 16),
               ),
               const SizedBox(
                 height: 24,
@@ -87,10 +86,11 @@ class LoginPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
+                  children: const [
                     Text(
-                      '忘记密码?',
-                      style: TextStyle(color: Colors.grey[600]),
+                      '忘记密码? ',
+                      style: TextStyle(
+                          fontStyle: FontStyle.italic, color: Colors.black87),
                     ),
                   ],
                 ),
@@ -99,7 +99,9 @@ class LoginPage extends StatelessWidget {
                 height: 48,
               ),
               YRButton(
-                onTap: _loginUser(context),
+                onTap: () {
+                  _loginUser(context);
+                },
               ),
               const SizedBox(
                 height: 128,
@@ -111,12 +113,12 @@ class LoginPage extends StatelessWidget {
                     Expanded(
                       child: Divider(
                         thickness: 0.5,
-                        color: Colors.grey[400],
+                        color: Colors.grey[50],
                       ),
                     ),
-                    Text(
-                      '或者, 其他方式',
-                      style: TextStyle(color: Colors.grey[600]),
+                    const Text(
+                      ' 或者, 其他方式 ',
+                      style: TextStyle(color: Colors.white60),
                     ),
                     Expanded(
                       child: Divider(
