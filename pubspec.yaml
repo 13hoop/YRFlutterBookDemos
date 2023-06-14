@@ -40,6 +40,12 @@ dependencies:
   fluttertoast: ^8.2.2
   models: ^0.0.2
   flutter_svg: ^2.0.5
+  shared_preferences: ^2.1.2
+  provider: ^6.0.5
+  json_annotation: ^4.8.1
+  transparent_image: ^2.0.1
+  build_runner: ^1.12.2
+  webview_flutter: ^4.2.2
 
 dev_dependencies:
   flutter_test:

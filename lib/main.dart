@@ -29,9 +29,10 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomePage(),
         '/login': (context) => LoginPage(),
         '/team': (context) => TeamPage(),
-        '/game': (context) => FinalGamePage()
+        '/game': (context) => FinalGamePage(),
+        '/news': (context) => NBANewsPage()
       },
-      initialRoute: '/login',
+      initialRoute: '/news',
     );
   }
 }

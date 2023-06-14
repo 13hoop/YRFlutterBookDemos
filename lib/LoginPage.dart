@@ -4,6 +4,8 @@ import 'package:book_demo/api_server.dart';
 import 'package:book_demo/components/my_button.dart';
 import 'package:book_demo/components/my_textfielf.dart';
 import 'package:book_demo/components/my_toast.dart';
+import 'package:book_demo/models/local_tools.dart';
+import 'package:book_demo/models/utl.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -29,9 +31,11 @@ class LoginPage extends StatelessWidget {
       return;
     }
 
-    ApiService.post(url, data).then((value) {
+    ApiService.userLogin(url, data).then((value) {
       print(' >> ${value.msg}');
       if (value.code == 0) {
+        User user = User.fromJson(value.data);
+        LocalTools.shared.save(user);
         Navigator.pop(context);
       }
     }).catchError((onError) {
