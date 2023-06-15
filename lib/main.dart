@@ -2,10 +2,12 @@ import 'package:book_demo/LoginPage.dart';
 import 'package:book_demo/finals_page.dart';
 import 'package:book_demo/homepage.dart';
 import 'package:book_demo/demo2_3.dart';
+import 'package:book_demo/profile_page.dart';
 import 'package:book_demo/team_page.dart';
 import 'package:flutter/material.dart';
 
 import 'countDemo.dart';
+import 'newspage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,9 +32,10 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/team': (context) => TeamPage(),
         '/game': (context) => FinalGamePage(),
-        '/news': (context) => NBANewsPage()
+        '/news': (context) => NBANewsPage(),
+        '/profile': (context) => ProfilePage()
       },
-      initialRoute: '/news',
+      initialRoute: '/home',
     );
   }
 }

@@ -1,13 +1,22 @@
 // ignore_for_file: avoid_print
 
 import 'dart:convert';
+import 'dart:ffi';
+import 'package:book_demo/models/local_tools.dart';
 import 'package:book_demo/models/utl.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:book_demo/models/home_news_model.dart';
+import 'package:logger/logger.dart';
 
 class ApiService {
   static final Dio _dio = Dio();
+
+  static userLogout() {
+    LocalTools.shared.remove();
+    LoggerTools.share('userLogout');
+  }
 
   // 登陆获取user信息
   static Future<Rsp> userLogin(String url, Object? data) async {
@@ -16,10 +25,10 @@ class ApiService {
 
     try {
       Response rsp = await _dio.post(url, data: data);
-      print('ApiService >> $rsp');
+      LoggerTools.share(' $rsp');
       return Rsp.fromJson(rsp.data);
     } catch (e) {
-      print('ApiService catch err: $e');
+      LoggerTools.share('catch err: $e');
       return Rsp(code: -1, data: e, msg: e.toString());
     }
   }
@@ -31,10 +40,8 @@ class ApiService {
     try {
       Response rsp = await _dio.get('/cms/v1/news/list',
           queryParameters: {'page_size': 10, 'page_no': page});
+
       var origin = Rsp.fromJson(rsp.data);
-
-      print('/news/list ?? ${origin.data}');
-
       if (origin.data is List) {
         var list = origin.data;
         List<HomeNewsModel> temp = [];
@@ -45,6 +52,7 @@ class ApiService {
           }
         }
         origin.data = temp;
+        LoggerTools.share('/news/list ?? ${page} ${temp.length}');
       }
 
       return origin;
@@ -101,4 +109,30 @@ class ApiService {
       'Content-Type': 'application/json; charset=UTF-8',
     });
   }
+}
+
+class LoggerTools {
+  static void share(dynamic message, [dynamic error, StackTrace? stackTrace]) {
+    if (_instance == null) {
+      print(' == static instance test: signal ? ');
+      Logger instance = Logger(
+          printer: PrettyPrinter(
+        stackTraceBeginIndex: 1,
+        methodCount: 2,
+        errorMethodCount: 5,
+        lineLength: 50,
+        colors: true,
+        printEmojis: true,
+        printTime: false,
+      ));
+
+      _instance = instance;
+      instance.log(Level.debug, message);
+    }
+
+    var instance = _instance ?? Logger();
+    instance.log(Level.debug, message);
+  }
+
+  static Logger? _instance;
 }

@@ -32,11 +32,14 @@ class LoginPage extends StatelessWidget {
     }
 
     ApiService.userLogin(url, data).then((value) {
-      print(' >> ${value.msg}');
       if (value.code == 0) {
         User user = User.fromJson(value.data);
-        LocalTools.shared.save(user);
-        Navigator.pop(context);
+        // LoggerTools.share(' longin done >> push /home 000 ${user.name}');
+        LocalTools.shared.save(user).then((value) {
+          // LoggerTools.share(' save done');
+          Navigator.of(context).pushNamed('/home');
+        });
+        // LoggerTools.share(' longin done >> push /home 111 ${user.name}');
       }
     }).catchError((onError) {
       print(' err: $onError');
