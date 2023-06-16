@@ -3,7 +3,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class WebviewPage extends StatefulWidget {
   final String url;
-  const WebviewPage(this.url);
+  String? title;
+  WebviewPage(this.url, {this.title});
 
   @override
   State<WebviewPage> createState() => _WebviewPageState();
@@ -24,7 +25,7 @@ class _WebviewPageState extends State<WebviewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('$title'),
+        title: Text(widget.title ?? ''),
       ),
       body: WebViewWidget(
         controller: controller,

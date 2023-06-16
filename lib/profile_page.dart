@@ -39,6 +39,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListView.builder(
+                primary: false,
                 itemCount: dataList.length,
                 itemBuilder: (context, index) {
                   return ListTile(
