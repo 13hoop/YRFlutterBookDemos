@@ -11,9 +11,11 @@ import 'package:book_demo/profile_page.dart';
 import 'package:book_demo/team_page.dart';
 import 'package:flutter/material.dart';
 import 'package:book_demo/widge_demo.dart';
+import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import 'newspage.dart';
+import 'video_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -37,10 +39,10 @@ class _HomePageState extends State<HomePage> {
   bool _isLogin = false;
 
   final List<Widget> _pages = [
-    NBANewsPage(),
+    const NBANewsPage(),
     const TeamPage(),
     const ProfilePage(),
-    const WidgetDemo(),
+    const ViedeoPage(),
   ];
 
   int _selectIndex = 0;
@@ -54,16 +56,23 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    LocalTools.shared.isLogin().then((value) {
-      setState(() {
-        _isLogin = value;
-      });
-    });
+    LocalTools.shared.isLogin();
+    // .then((value) {
+    //   setState(() {
+    //     _isLogin = value;
+    //   });
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
-    return _buidPage();
+    return Consumer<LocalTools>(builder: (context, model, _) {
+      LoggerTools.share(' nofity response --> ${model.isLoginStatus}');
+      _isLogin = model.isLoginStatus;
+      return _buidPage();
+    });
+
+    // return _buidPage();
   }
 
   // 如果登陆, 则展示首页; 否则, 为登陆

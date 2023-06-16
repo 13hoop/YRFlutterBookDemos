@@ -13,7 +13,10 @@ class TeamPage extends StatefulWidget {
   State<TeamPage> createState() => _TeamPage();
 }
 
-class _TeamPage extends State<TeamPage> {
+class _TeamPage extends State<TeamPage> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   List<Team> dataSource = [];
 
   Future quryTeams() async {
@@ -32,12 +35,9 @@ class _TeamPage extends State<TeamPage> {
     }
   }
 
-  // void pushToFinals() {
-  //   Navigator.pushNamed(context,  routeName)
-  // }
-
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
           leading: IconButton(

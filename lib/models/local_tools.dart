@@ -2,17 +2,24 @@ import 'dart:async';
 import 'dart:ffi';
 import 'package:book_demo/api_server.dart';
 import 'package:book_demo/models/utl.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LocalTools {
+class LocalTools extends ChangeNotifier {
   static LocalTools shared = LocalTools();
+
+  bool isLoginStatus = false;
 
   Future<bool> isLogin() async {
     LoggerTools.share('>> isLogin');
     var rsp = await getUser();
     if (rsp != null) {
+      isLoginStatus = true;
+      notifyListeners();
       return true;
     } else {
+      isLoginStatus = false;
+      notifyListeners();
       return false;
     }
   }
@@ -49,7 +56,8 @@ class LocalTools {
       if (user.avatar != null) {
         prefs.setString('avater', user.avatar ?? '');
       }
-      // LoggerTools.share('>> save user 2222');
+      LoggerTools.share('>> save user 2222');
+      isLoginStatus = true;
       completer.complete(); // 完成操作
     }).catchError((err) {
       completer.completeError(err); // 完成操作并返回错误
@@ -61,5 +69,8 @@ class LocalTools {
   void remove() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.clear();
+    LoggerTools.share(' notifyListeners');
+    isLoginStatus = false;
+    notifyListeners();
   }
 }

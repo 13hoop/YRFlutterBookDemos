@@ -2,9 +2,11 @@ import 'package:book_demo/LoginPage.dart';
 import 'package:book_demo/finals_page.dart';
 import 'package:book_demo/homepage.dart';
 import 'package:book_demo/demo2_3.dart';
+import 'package:book_demo/models/local_tools.dart';
 import 'package:book_demo/profile_page.dart';
 import 'package:book_demo/team_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'countDemo.dart';
 import 'newspage.dart';
@@ -19,6 +21,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    return ChangeNotifierProvider<LocalTools>(
+        create: (_) {
+          return LocalTools.shared;
+        },
+        child: _buildMaterialApp());
+  }
+
+  Widget _buildMaterialApp() {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
