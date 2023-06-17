@@ -10,9 +10,65 @@ import 'package:http/http.dart' as http;
 import 'package:book_demo/models/home_news_model.dart';
 import 'package:logger/logger.dart';
 
+import 'models/player_models.dart';
+
 class ApiService {
   static final Dio _dio = Dio();
 
+  // 请求视频分类
+  static Future<Rsp> queryVdieoCategory() async {
+    _dio.options.baseUrl = 'http://127.0.0.1:5555';
+    _dio.options.headers = {'Content-Type': 'application/json; charset=UTF-8'};
+
+    try {
+      Response rsp = await _dio.get('/videoCategory');
+      LoggerTools.share('/videoCategory ??  ${rsp}');
+      var origin = Rsp.fromJson(rsp.data);
+      if (origin.data is List) {
+        var list = origin.data;
+        List<VideoCategory> temp = [];
+        for (var elm in list) {
+          VideoCategory model = VideoCategory.fromJson(elm);
+          temp.add(model);
+        }
+        origin.data = temp;
+        LoggerTools.share('/videoCategory ??  ${temp}');
+      }
+      return origin;
+    } catch (e) {
+      LoggerTools.share('catch err: $e');
+      return Rsp(code: -1, data: e, msg: e.toString());
+    }
+  }
+
+  static Future<List<PlayerModels>?> queryPlayers() async {
+    _dio.options.baseUrl = 'https://m.china.nba.cn';
+    _dio.options.headers = {'Content-Type': 'application/json; charset=UTF-8'};
+
+    try {
+      Response rsp = await _dio.get('/stats2/league/playerstats.json',
+          queryParameters: {'season': '2022'});
+
+      var list = rsp.data['payload']['players'];
+
+      if (list is List) {
+        List<PlayerModels> temp = [];
+        for (var elm in list) {
+          PlayerModels model = PlayerModels.fromJson(elm);
+          temp.add(model);
+        }
+
+        return Future.value(temp);
+      }
+
+      return Future.value(null);
+    } catch (e) {
+      LoggerTools.share('catch err: $e');
+      return Future.value(null);
+    }
+  }
+
+  // 退出登录
   static userLogout() {
     LocalTools.shared.remove();
     LoggerTools.share('userLogout');
@@ -33,6 +89,7 @@ class ApiService {
     }
   }
 
+  // 获取新闻
   static Future<Rsp> queryHomes(int page) async {
     _dio.options.baseUrl = 'https://m.china.nba.cn';
     _dio.options.headers = {'Content-Type': 'application/json; charset=UTF-8'};

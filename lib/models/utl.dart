@@ -15,14 +15,6 @@ class Rsp {
   }
 }
 
-// class Pagination {
-//    int total;
-//    int page_no;
-//    int page_size;
-
-//    Pa
-// }
-
 class User {
   final String name;
   final int u_id;

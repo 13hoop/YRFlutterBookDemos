@@ -1,5 +1,6 @@
 import 'package:book_demo/api_server.dart';
 import 'package:book_demo/models/home_news_model.dart';
+import 'package:book_demo/models/player_models.dart';
 import 'package:book_demo/models/utl.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -22,9 +23,7 @@ class _NBANewsPageState extends State<NBANewsPage>
   @override
   void initState() {
     super.initState();
-    loadBannerData();
-    loadHomeData();
-
+    loadData();
     _setupScrollController();
   }
 
@@ -42,7 +41,17 @@ class _NBANewsPageState extends State<NBANewsPage>
 
   void loadData() {
     loadBannerData();
+    loadPlayers();
     loadHomeData();
+  }
+
+  void loadPlayers() {
+    print(' loadPlayers ');
+    ApiService.queryPlayers().then((list) {
+      setState(() {
+        categorys = list ?? [];
+      });
+    });
   }
 
   void loadHomeData() {
@@ -75,8 +84,14 @@ class _NBANewsPageState extends State<NBANewsPage>
     });
   }
 
+  // banner列表
   late List<NewsModel> bannerList = [];
   late List<String> _images = [];
+
+  // 球员列表
+  late List<PlayerModels> categorys = [];
+
+  // 新闻列表
   late List<HomeNewsModel> contentList = [];
   int currPage = 0;
 
@@ -110,6 +125,58 @@ class _NBANewsPageState extends State<NBANewsPage>
     );
   }
 
+  String getPlayerImgUrl(PlayerModels model) {
+    if (model.playerProfile?.playerId != null) {
+      String playerId = model.playerProfile?.playerId as String;
+      return 'https://res.nba.cn/media/img/players/head/260x190/${playerId}.png';
+    }
+    return 'https://res.nba.cn/resource/mat1/chinanba/images/nbalogo/nba-icon.png?20220224';
+  }
+
+  Widget _buildCategory() {
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: categorys.map((item) {
+            return GestureDetector(
+                onTap: () {
+                  String code = item.playerProfile?.code ?? '';
+                  String name = item.playerProfile?.displayName ?? '';
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return WebviewPage(
+                        title: name, 'https://m.china.nba.cn/players/#!/$code');
+                  }));
+                },
+                child: Container(
+                    margin: EdgeInsets.all(8),
+                    child: Column(
+                      children: [
+                        ClipOval(
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            // padding: EdgeInsets.all(8),
+                            color: Colors.blueGrey,
+                            child: FadeInImage.memoryNetwork(
+                                placeholder: kTransparentImage,
+                                image: getPlayerImgUrl(item)),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(item.playerProfile?.displayName ?? '--')
+                      ],
+                    )));
+          }).toList(),
+        ),
+      );
+    });
+  }
+
   Widget _buildLoadMoreIndicator() {
     return const Padding(
         padding: EdgeInsets.all(16.0),
@@ -126,10 +193,14 @@ class _NBANewsPageState extends State<NBANewsPage>
         child: contentList.isNotEmpty
             ? ListView.builder(
                 controller: _scrollController,
-                itemCount: contentList.length,
+                itemCount: contentList.length + 1,
                 itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return _buildCategory();
+                  }
+
                   // LoggerTools.share('$index ~ ${contentList.length}');
-                  if (index == contentList.length - 1) {
+                  if (index == contentList.length) {
                     return _buildLoadMoreIndicator();
                   }
 
