@@ -26,13 +26,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<BottomNavigationBarItem> items = [
-    const BottomNavigationBarItem(
-        icon: Icon(Icons.new_label_sharp), label: 'Home'),
+    const BottomNavigationBarItem(icon: Icon(Icons.newspaper), label: 'Home'),
     const BottomNavigationBarItem(
         icon: Icon(Icons.sports_baseball), label: 'Teams'),
-    const BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Profile'),
     const BottomNavigationBarItem(
-        icon: Icon(Icons.auto_awesome), label: 'widget'),
+        icon: Icon(Icons.video_library), label: 'video'),
+    const BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Profile'),
   ];
 
   // 是否登陆
@@ -41,8 +40,8 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     const NBANewsPage(),
     const TeamPage(),
-    const ProfilePage(),
     const ViedeoPage(),
+    const ProfilePage(),
   ];
 
   int _selectIndex = 0;

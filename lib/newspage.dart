@@ -165,7 +165,7 @@ class _NBANewsPageState extends State<NBANewsPage>
                                 image: getPlayerImgUrl(item)),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         Text(item.playerProfile?.displayName ?? '--')

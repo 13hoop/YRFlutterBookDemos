@@ -23,7 +23,7 @@ class User {
   const User(this.avatar, {required this.name, required this.u_id});
 
   factory User.fromJson(Map<String, dynamic> json) {
-    return User('avatar', name: json['name'], u_id: json['u_id']);
+    return User(json['avatar'], name: json['name'], u_id: json['u_id']);
   }
 }
 

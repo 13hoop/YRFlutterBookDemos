@@ -15,6 +15,39 @@ import 'models/player_models.dart';
 class ApiService {
   static final Dio _dio = Dio();
 
+  // 获取视频列表
+  static Future<Rsp> queryVideoList(int category, int page) async {
+    _dio.options.baseUrl = 'https://m.china.nba.cn';
+    _dio.options.headers = {'Content-Type': 'application/json; charset=UTF-8'};
+
+    LoggerTools.share(' -- [queryVideoList]-->> /news/list ?? ${category}');
+    try {
+      Response rsp = await _dio.get('/cms/v1/news/list', queryParameters: {
+        'column_id': category,
+        'page_size': 10,
+        'page_no': page
+      });
+
+      var origin = Rsp.fromJson(rsp.data);
+      if (origin.data is List) {
+        var list = origin.data;
+        List<HomeNewsModel> temp = [];
+        for (var elm in list) {
+          if (elm is Map<String, dynamic>) {
+            var obj = HomeNewsModel.fromJson(elm);
+            temp.add(obj);
+          }
+        }
+        origin.data = temp;
+      }
+
+      return origin;
+    } catch (e) {
+      print('ApiService catch err: $e');
+      return Rsp(code: -1, data: e, msg: e.toString());
+    }
+  }
+
   // 请求视频分类
   static Future<Rsp> queryVdieoCategory() async {
     _dio.options.baseUrl = 'http://127.0.0.1:5555';
@@ -32,7 +65,6 @@ class ApiService {
           temp.add(model);
         }
         origin.data = temp;
-        LoggerTools.share('/videoCategory ??  ${temp}');
       }
       return origin;
     } catch (e) {
@@ -41,6 +73,7 @@ class ApiService {
     }
   }
 
+  // 获取球员
   static Future<List<PlayerModels>?> queryPlayers() async {
     _dio.options.baseUrl = 'https://m.china.nba.cn';
     _dio.options.headers = {'Content-Type': 'application/json; charset=UTF-8'};
